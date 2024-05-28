@@ -4,7 +4,10 @@
     {
         static void Main()
         {
+            PlayGame game = new PlayGame();
+            game.Start();
             
+            System.Console.Read();
         }
     }
 }
