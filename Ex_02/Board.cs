@@ -48,11 +48,11 @@ namespace Ex_02
 
             Console.WriteLine();
 
-            
+
             for (int i = 0; i < m_Row; i++)
             {
                 Console.Write("  ");
-                Console.WriteLine(new string('=', k_PrintMuliplier * m_Column -1));
+                Console.WriteLine(new string('=', k_PrintMuliplier * m_Column - 1));
                 Console.Write($"{i + 1} ");
 
                 for (int j = 0; j < m_Column; j++)

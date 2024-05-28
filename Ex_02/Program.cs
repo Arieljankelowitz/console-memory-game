@@ -1,13 +1,17 @@
-﻿namespace Ex_02
+﻿using System.Linq.Expressions;
+
+namespace Ex_02
 {
     public class Program
     {
         static void Main()
         {
-            PlayGame game = new PlayGame();
-            game.Start();
+            //PlayGame game = new PlayGame();
+            //game.Start();
             
-            System.Console.Read();
+            //System.Console.Read();
+            Board b = new Board(6, 6);
+            b.PrintBoard();
         }
     }
 }

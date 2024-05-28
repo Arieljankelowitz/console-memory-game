@@ -45,7 +45,6 @@
     <Compile Include="ConsoleUtils.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="PlayGame.cs" />
-    <Compile Include="Board.cs" />
     <Compile Include="Cell.cs" />
     <Compile Include="Program.cs" />
   </ItemGroup>
