@@ -2,7 +2,7 @@
 
 namespace Ex_02
 {
-    internal class ConsoleUtils
+    internal class ConsoleInterface
     {
         internal static string GetPlayerName()
         {
@@ -82,10 +82,10 @@ namespace Ex_02
 
         public static (int, int) ChooseBoard()
         {
-            int startX = 15;
+            const int k_StartX = 15;
             int startY = Console.CursorTop + 2;
-            int optionsPerLine = 4;
-            int spacingPerLine = 8;
+            const int k_OptionsPerLine = 4;
+            const int k_SpacingPerLine = 8;
 
             string[] boardOptions = new string[8] { "4x4", "4x5", "4x6", "5x4", "5x6", "6x4", "6x5", "6x6" };
 
@@ -101,7 +101,7 @@ namespace Ex_02
             { 
                 for (int i = 0; i < boardOptions.Length; i++)
                 {
-                    Console.SetCursorPosition(startX + (i % optionsPerLine) * spacingPerLine, startY + i / optionsPerLine);
+                    Console.SetCursorPosition(k_StartX + (i % k_OptionsPerLine) * k_SpacingPerLine, startY + i / k_OptionsPerLine);
 
                     if (i == currentSelection)
                         Console.ForegroundColor = ConsoleColor.Blue;
@@ -117,26 +117,26 @@ namespace Ex_02
                 {
                     case ConsoleKey.LeftArrow:
                         {
-                            if (currentSelection % optionsPerLine > 0)
+                            if (currentSelection % k_OptionsPerLine > 0)
                                 currentSelection--;
                             break;
                         }
                     case ConsoleKey.RightArrow:
                         {
-                            if (currentSelection % optionsPerLine < optionsPerLine - 1)
+                            if (currentSelection % k_OptionsPerLine < k_OptionsPerLine - 1)
                                 currentSelection++;
                             break;
                         }
                     case ConsoleKey.UpArrow:
                         {
-                            if (currentSelection >= optionsPerLine)
-                                currentSelection -= optionsPerLine;
+                            if (currentSelection >= k_OptionsPerLine)
+                                currentSelection -= k_OptionsPerLine;
                             break;
                         }
                     case ConsoleKey.DownArrow:
                         {
-                            if (currentSelection + optionsPerLine < boardOptions.Length)
-                                currentSelection += optionsPerLine;
+                            if (currentSelection + k_OptionsPerLine < boardOptions.Length)
+                                currentSelection += k_OptionsPerLine;
                             break;
                         }
                 }
@@ -196,6 +196,34 @@ namespace Ex_02
             Console.CursorVisible = true;
 
             return board;
+        }
+
+        internal static void GameOver(string i_GameWinner)
+        {
+            Ex02.ConsoleUtils.Screen.Clear();
+
+            if (i_GameWinner == "Tie")
+            {
+                Console.WriteLine("TIE GAME!");
+            } else
+            {
+                Console.WriteLine("{0} WON THE GAME", i_GameWinner);
+            }
+        }
+
+        internal static void NewTurn(Player i_Player, Board i_board)
+        {
+            Ex02.ConsoleUtils.Screen.Clear();
+            i_board.PrintBoard();
+            Console.WriteLine("{0}'s turn:", i_Player.Name);
+        }
+
+        internal static string GetChoice()
+        {
+            Console.WriteLine("Choose a card: (ex: 'a2')");
+            string chosenCard = Console.ReadLine();
+
+            return chosenCard;
         }
     }
 

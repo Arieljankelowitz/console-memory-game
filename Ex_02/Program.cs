@@ -6,12 +6,19 @@ namespace Ex_02
     {
         static void Main()
         {
-            //PlayGame game = new PlayGame();
-            //game.Start();
-            
-            //System.Console.Read();
-            Board b = new Board(6, 6);
-            b.PrintBoard();
+            playGame();
+
+            System.Console.Read();
+
+        }
+
+        private static void playGame()
+        {
+            MatchingGame matchingGame = new MatchingGame();
+
+            matchingGame.Play();
+
+            matchingGame.End();
         }
     }
 }

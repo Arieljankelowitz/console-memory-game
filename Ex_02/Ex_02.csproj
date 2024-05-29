@@ -42,9 +42,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Board.cs" />
-    <Compile Include="ConsoleUtils.cs" />
+    <Compile Include="ConsoleInterface.cs" />
     <Compile Include="Player.cs" />
-    <Compile Include="PlayGame.cs" />
+    <Compile Include="MatchingGame.cs" />
     <Compile Include="Cell.cs" />
     <Compile Include="Program.cs" />
   </ItemGroup>
