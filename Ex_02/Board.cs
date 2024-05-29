@@ -8,7 +8,7 @@ namespace Ex_02
         private readonly Cell[,] m_Cells;
         private int m_Column;
         private int m_Row;
-        const int k_PrintMuliplier = 6;
+        const int k_PrintMuliplier = 5;
 
         public Board(int i_row, int i_column)
         {
@@ -37,13 +37,20 @@ namespace Ex_02
                 }
             }
         }
+        public char FlipCell(int i_row, int i_column)
+        {
+            char cellLetterValue = m_Cells[i_row,i_column].Letter;
+            m_Cells[i_row, i_column].FlipVisibility();
+            return cellLetterValue;
+        }
 
         public void PrintBoard()
         {
             Console.Write(' ');
+            Console.Write(' ');
             for (int j = 0; j < m_Column; j++)
             {
-                Console.Write($"   {(char)('A' + j)}  ");
+                Console.Write($"  {(char)('A' + j)}  ");
             }
 
             Console.WriteLine();
@@ -52,12 +59,21 @@ namespace Ex_02
             for (int i = 0; i < m_Row; i++)
             {
                 Console.Write("  ");
-                Console.WriteLine(new string('=', k_PrintMuliplier * m_Column - 1));
+                Console.WriteLine(new string('=', k_PrintMuliplier * m_Column));
                 Console.Write($"{i + 1} ");
-
+                Console.Write("|");
                 for (int j = 0; j < m_Column; j++)
                 {
-                    Console.Write($"| {m_Cells[i, j].Letter} | ");
+                    if (m_Cells[i, j].m_IsVisible)
+                    {
+                        Console.Write($" {m_Cells[i, j].Letter} | ");
+                    }
+                    
+                    else
+                    {
+                        Console.Write(new string(' ', 3 ) + "| ");
+                    }
+                    
                 }
                 Console.WriteLine();
             }

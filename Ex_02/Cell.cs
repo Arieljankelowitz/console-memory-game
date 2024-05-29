@@ -10,7 +10,7 @@ namespace Ex_02
     {
         private int m_Row { get; set; }
         private int m_Col { get; set; }
-        private bool m_IsVisible { get; set; } = false;
+        public bool m_IsVisible { get; set; } = false;
         private Char m_Letter;
         
         public Cell(int i_row, int i_col, char i_letter)
@@ -18,7 +18,7 @@ namespace Ex_02
             this.m_Row = i_row;
             this.m_Col = i_col;
             this.m_Letter = i_letter;
-            this.m_IsVisible = false;
+            
         }
 
         public char Letter
@@ -27,10 +27,10 @@ namespace Ex_02
             set { m_Letter = value; }
         }
 
-        public void Flipvisability(Cell i_cell)
+        public void FlipVisibility()
         {
-            this.m_IsVisible = true;
+            m_IsVisible = !m_IsVisible;
         }
-        
+
     }
 }

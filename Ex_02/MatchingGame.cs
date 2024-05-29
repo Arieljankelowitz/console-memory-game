@@ -55,21 +55,23 @@ namespace Ex_02
             string firstChoice = ConsoleInterface.GetChoice();
 
             //logic to convert choice to cell
-             
+            char FirstChar = i_board.FlipCell(1, 1);
+
             string SecondChoice = ConsoleInterface.GetChoice();
 
             // some logic to check if the cards are equal
+           char SecondChar =  i_board.FlipCell(0, 0);
 
             //if (cardsMatch)
             //{
-                // logic to leave them flipped
-                i_Player.Score++;
+            // logic to leave them flipped
+            i_Player.Score++;
             //}
 
 
             //(int Row, int Col) firstChoice = GetUserSelection();
 
-            //char firstCellValue = Board.flip(int firstChoice.Row, firstChoice.Col);
+            
 
         }
 

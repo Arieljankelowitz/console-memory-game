@@ -9,7 +9,8 @@ namespace Ex_02
             playGame();
 
             System.Console.Read();
-
+            //Board b = new Board(6, 6);
+            //b.PrintBoard();
         }
 
         private static void playGame()
