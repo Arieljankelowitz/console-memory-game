@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace Ex_02
 {
@@ -14,7 +15,7 @@ namespace Ex_02
 
             string player2Name = ConsoleInterface.ChoosePlayer2() ? ConsoleInterface.GetPlayerName() : "Computer";
 
-            (int Cols, int Rows) board = ConsoleInterface.ChooseBoard();
+            (int Rows, int Cols) board = ConsoleInterface.ChooseBoard();
 
             m_Player1 = new Player(player1Name);
             m_Player2 = new Player(player2Name);
@@ -26,75 +27,104 @@ namespace Ex_02
             m_Board.PrintBoard();
         }
 
- 
-
-        public void Start () 
-        {
-            Ex02.ConsoleUtils.Screen.Clear();
-            // maybe move the logic from the constructor here
-        }
-
         public void Play()
         {
-            while (!m_GameOver)
+            while (true)
             {
-                playerTurn(m_Player1, m_Board);
-                playerTurn(m_Player2, m_Board);
+                do
+                {
+                    playerTurn(m_Player1);
+                    isGameOver();
+
+                    if (m_GameOver)
+                    {
+                        break;
+                    }
+                }
+                while (m_Player1.IsPlaying);
+
+                if (m_GameOver)
+                {
+                    break;
+                }
+
+                do
+                {
+                    playerTurn(m_Player2);
+                    isGameOver();
+
+                    if (m_GameOver)
+                    {
+                        break;
+                    }
+                }
+                while (m_Player2.IsPlaying);
+
+                if (m_GameOver)
+                {
+                    break;
+                }
             }
 
         }
         public void End()
         {
-            string gameWinner = getGameWinner();
+            Player gameWinner = getGameWinner();
             ConsoleInterface.GameOver(gameWinner);
         }
-        private void playerTurn(Player i_Player, Board i_board)
+        private void playerTurn(Player i_Player)
         {
-            ConsoleInterface.NewTurn(i_Player, i_board);
+            i_Player.IsPlaying = true;
 
-            string firstChoice = ConsoleInterface.GetChoice();
+            (int Row, int Col) firstGuessCoord = i_Player.Guess(m_Board);
+            char firstGuess = m_Board.FlipCell(firstGuessCoord.Row, firstGuessCoord.Col);
 
-            //logic to convert choice to cell
-            char FirstChar = i_board.FlipCell(1, 1);
+            (int Row, int Col) secondGuessCoord = i_Player.Guess(m_Board);
 
-            string SecondChoice = ConsoleInterface.GetChoice();
+            while (firstGuessCoord == secondGuessCoord)
+            {
+                secondGuessCoord = i_Player.Guess(m_Board);
+            }
+            char secondGuess = m_Board.FlipCell(secondGuessCoord.Row, secondGuessCoord.Col);
 
-            // some logic to check if the cards are equal
-           char SecondChar =  i_board.FlipCell(0, 0);
+            ConsoleInterface.ShowBoard(m_Board);
 
-            //if (cardsMatch)
-            //{
-            // logic to leave them flipped
-            i_Player.Score++;
-            //}
-
-
-            //(int Row, int Col) firstChoice = GetUserSelection();
-
-            
+            bool matched = i_Player.IsMatch(firstGuess, secondGuess);
+            if (matched)
+            {
+                m_Board.GotAMatch(firstGuessCoord, secondGuessCoord);
+            }
+            else
+            {
+                m_Board.FlipCell(firstGuessCoord.Row, firstGuessCoord.Col);
+                m_Board.FlipCell(secondGuessCoord.Row, secondGuessCoord.Col);
+                System.Threading.Thread.Sleep(2000);
+                i_Player.IsPlaying = false;
+            }
 
         }
 
-        private string getGameWinner()
+        private Player getGameWinner()
         {
-            string gameWinnner;
+            Player gameWinnner = null;
 
             if (m_Player1.Score > m_Player2.Score)
             {
-                gameWinnner = m_Player1.Name;
+                gameWinnner = m_Player1;
 
             } else if (m_Player1.Score < m_Player2.Score)
             {
 
-                gameWinnner= m_Player2.Name;
+                gameWinnner= m_Player2;
 
-            } else
-            {
-                gameWinnner = "Tie";
             }
 
             return gameWinnner;
+        }
 
+        private void isGameOver()
+        {
+            m_GameOver = m_Board.IsBoardMatched();
         }
     }
 

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Globalization;
+using System.IO;
 
 namespace Ex_02
 {
@@ -9,8 +11,9 @@ namespace Ex_02
             Console.WriteLine("Please enter your name: ");
             string playerName = Console.ReadLine();
 
-            if (playerName == "" || playerName.Length > 20 || playerName.Contains(" "))
-            { 
+            if (!InputValidation.ValidPlayerName(playerName))
+            {
+                Console.WriteLine("Invalid name please try again.");
                 playerName = GetPlayerName();
             }
 
@@ -87,7 +90,7 @@ namespace Ex_02
             const int k_OptionsPerLine = 4;
             const int k_SpacingPerLine = 8;
 
-            string[] boardOptions = new string[8] { "4x4", "4x5", "4x6", "5x4", "5x6", "6x4", "6x5", "6x6" };
+            string[] boardOptions = new string[9] { "4x4", "4x5", "4x6", "5x4", "5x6", "6x4", "6x5", "6x6", "2x2" };
 
             int currentSelection = 0;
 
@@ -188,7 +191,7 @@ namespace Ex_02
                     }
                 default:
                     {
-                        board = (4, 4);
+                        board = (2, 2);
                         break;
                     }
             }
@@ -198,32 +201,56 @@ namespace Ex_02
             return board;
         }
 
-        internal static void GameOver(string i_GameWinner)
+        internal static void GameOver(Player i_GameWinner)
         {
             Ex02.ConsoleUtils.Screen.Clear();
 
-            if (i_GameWinner == "Tie")
+            if (i_GameWinner != null)
             {
-                Console.WriteLine("TIE GAME!");
+                Console.WriteLine("{0} Won with {1} matches", i_GameWinner.Name, i_GameWinner.Score);
+                
             } else
             {
-                Console.WriteLine("{0} WON THE GAME", i_GameWinner);
+                Console.WriteLine("TIE GAME!");
             }
         }
 
-        internal static void NewTurn(Player i_Player, Board i_board)
+        internal static string NewGuess(Player i_Player, Board i_Board)
+        {
+            Ex02.ConsoleUtils.Screen.Clear();
+            i_Board.PrintBoard();
+            Console.WriteLine("{0}'s turn: Score {1}", i_Player.Name, i_Player.Score);
+            Console.WriteLine("Choose a card: (ex: 'A2')");
+            string chosenCard = Console.ReadLine();
+
+            if (!InputValidation.ValidCard(chosenCard, i_Board))
+            {
+                chosenCard = GuessAgain(i_Player, i_Board);
+            }
+
+            return chosenCard;
+        }
+
+        internal static string GuessAgain(Player i_Player, Board i_Board)
+        {
+            Console.WriteLine("Invalid input. Please try again");
+            Console.WriteLine("Choose a card: (ex: 'A2')");
+            string chosenCard = Console.ReadLine();
+
+            if (!InputValidation.ValidCard(chosenCard, i_Board))
+            {
+
+                chosenCard = GuessAgain(i_Player, i_Board);
+            }
+
+            return chosenCard;
+
+        }
+
+        internal static void ShowBoard(Board i_board)
         {
             Ex02.ConsoleUtils.Screen.Clear();
             i_board.PrintBoard();
-            Console.WriteLine("{0}'s turn:", i_Player.Name);
-        }
-
-        internal static string GetChoice()
-        {
-            Console.WriteLine("Choose a card: (ex: 'a2')");
-            string chosenCard = Console.ReadLine();
-
-            return chosenCard;
         }
     }
 
