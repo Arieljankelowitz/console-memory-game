@@ -19,6 +19,11 @@ namespace Ex_02
             get { return m_Row; } 
         }
 
+        public Cell[,] Cells
+        {
+            get { return m_Cells; }
+        }
+
         public Board(int i_row, int i_column)
         {
             m_Row = i_row;

@@ -11,7 +11,7 @@ namespace Ex_02
         internal static bool ValidPlayerName(string i_PlayerName)
         {
             bool lessThan20Chars = i_PlayerName.Length <= 20;
-            bool containSpace = i_PlayerName.Contains(" ");
+            bool containSpace = i_PlayerName.Any(Char.IsWhiteSpace);
             bool isEmpty = string.IsNullOrEmpty(i_PlayerName);
 
             bool validName = !isEmpty && lessThan20Chars && !containSpace;

@@ -11,7 +11,7 @@ namespace Ex_02
         private int m_Row { get; set; }
         private int m_Col { get; set; }
         public bool m_IsVisible { get; set; } = false;
-        private Char m_Letter;
+        private char m_Letter;
         
         public Cell(int i_row, int i_col, char i_letter)
         {
