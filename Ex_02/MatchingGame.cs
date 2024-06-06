@@ -13,7 +13,7 @@ namespace Ex_02
         {
             string player1Name = ConsoleInterface.GetPlayerName();
 
-            string player2Name = ConsoleInterface.ChoosePlayer2() ? ConsoleInterface.GetPlayerName() : "Computer";
+            string player2Name = ConsoleInterface.BinarySelection("Computer", "PlayerTwo") ? ConsoleInterface.GetPlayerName() : "Computer";
 
             (int Rows, int Cols) board = ConsoleInterface.ChooseBoard();
 
@@ -24,7 +24,7 @@ namespace Ex_02
 
             m_Board = new Board(board.Rows, board.Cols);
 
-            m_Board.PrintBoard();
+           ConsoleInterface.PrintBoard(m_Board);
         }
 
         public void Play()

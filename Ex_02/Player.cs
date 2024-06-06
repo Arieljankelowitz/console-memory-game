@@ -7,6 +7,8 @@ namespace Ex_02
     internal class Player
     {
         private bool m_IsComputer;
+
+        private static readonly Computer m_Computer = new Computer();
         public string Name { get; }
         public int Score { get; set; }
 
@@ -15,8 +17,6 @@ namespace Ex_02
         public Player(string i_Name)
         {
             Name = i_Name;
-
-            m_IsComputer = i_Name == "Computer";
         }
 
 
@@ -25,7 +25,8 @@ namespace Ex_02
             (int Row, int Col) cellCoord;
             if (m_IsComputer)
             {
-                cellCoord = computerGuess(i_board);
+                
+                cellCoord = m_Computer.computerGuess(i_board);
             }
             else
             {
@@ -57,26 +58,30 @@ namespace Ex_02
 
             return cellCoord;
         }
-
-        private (int, int) computerGuess(Board i_board)
-        {
-            Random random = new Random();
-            int rowGuess = random.Next(0, i_board.NumOfRows);
-            int coloumGuss = random.Next(0, i_board.NumOfCols);
-            (int, int) cellCoord = (rowGuess, coloumGuss);
-
-            System.Console.WriteLine("comuter gessing" + cellCoord);
-            System.Threading.Thread.Sleep(3000);
-
-            bool alreadyMatched = i_board.alreadyMatched(rowGuess, coloumGuss);
-
-            if (alreadyMatched)
+        internal class Computer {
+          
+            internal (int, int) computerGuess(Board i_board)
             {
-                cellCoord = computerGuess(i_board);
-            }
+                Random random = new Random();
+                int rowGuess = random.Next(0, i_board.NumOfRows);
+                int coloumGuss = random.Next(0, i_board.NumOfCols);
+                (int, int) cellCoord = (rowGuess, coloumGuss);
 
-            return cellCoord;
+                System.Console.WriteLine("comuter gessing" + cellCoord);
+                System.Threading.Thread.Sleep(3000);
+
+                bool alreadyMatched = i_board.alreadyMatched(rowGuess, coloumGuss);
+
+                if (alreadyMatched)
+                {
+                    cellCoord = computerGuess(i_board);
+                }
+
+                return cellCoord;
+            }
         }
+
+
 
     }
 }

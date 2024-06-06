@@ -6,6 +6,7 @@ namespace Ex_02
 {
     internal class ConsoleInterface
     {
+        const int k_PrintMuliplier = 5;
         internal static string GetPlayerName()
         {
             Console.WriteLine("Please enter your name: ");
@@ -20,7 +21,7 @@ namespace Ex_02
             return playerName;
         }
 
-        internal static bool ChoosePlayer2() 
+        internal static bool BinarySelection(String i_FirstOption, String i_SecondOption) 
         {
             
             int startX = 15;
@@ -28,7 +29,7 @@ namespace Ex_02
             int optionsPerLine = 2;
             int spacingPerLine = 14;
 
-            string[] player2Options = new string[2] { "computer", "player 2" };
+            string[] player2Options = new string[2] { i_FirstOption, i_SecondOption };
 
             int currentSelection = 0;
 
@@ -77,9 +78,9 @@ namespace Ex_02
 
             Console.CursorVisible = true;
 
-            bool choosePlayerTwo = currentSelection == 0 ? false : true;
+            bool isSecondOption = currentSelection == 0 ? false : true;
 
-            return choosePlayerTwo;
+            return isSecondOption;
 
         }
 
@@ -208,17 +209,20 @@ namespace Ex_02
             if (i_GameWinner != null)
             {
                 Console.WriteLine("{0} Won with {1} matches", i_GameWinner.Name, i_GameWinner.Score);
+
                 
             } else
             {
                 Console.WriteLine("TIE GAME!");
             }
+
+            Console.WriteLine();
         }
 
         internal static string NewGuess(Player i_Player, Board i_Board)
         {
             Ex02.ConsoleUtils.Screen.Clear();
-            i_Board.PrintBoard();
+            PrintBoard(i_Board);
             Console.WriteLine("{0}'s turn: Score {1}", i_Player.Name, i_Player.Score);
             Console.WriteLine("Choose a card: (ex: 'A2')");
             string chosenCard = Console.ReadLine();
@@ -252,7 +256,44 @@ namespace Ex_02
         internal static void ShowBoard(Board i_board)
         {
             Ex02.ConsoleUtils.Screen.Clear();
-            i_board.PrintBoard();
+            PrintBoard(i_board);
+        }
+
+        public static void PrintBoard(Board i_board)
+        {
+            Console.Write(' ');
+            Console.Write(' ');
+            for (int j = 0; j <  i_board.NumOfCols; j++)
+            {
+                Console.Write($"  {(char)('A' + j)}  ");
+            }
+
+            Console.WriteLine();
+
+
+            for (int i = 0; i < i_board.NumOfRows; i++)
+            {
+                Console.Write("  ");
+                Console.WriteLine(new string('=', k_PrintMuliplier * i_board.NumOfCols));
+                Console.Write($"{i + 1} ");
+                Console.Write("|");
+                for (int j = 0; j < i_board.NumOfCols; j++)
+                {
+                    if (i_board.Cells[i, j].m_IsVisible)
+                    {
+                        Console.Write($" {i_board.Cells[i, j].Letter} | ");
+                    }
+
+                    else
+                    {
+                        Console.Write(new string(' ', 3) + "| ");
+                    }
+
+                }
+                Console.WriteLine();
+            }
+            Console.Write("  ");
+            Console.WriteLine(new string('=', k_PrintMuliplier * i_board.NumOfCols));
         }
     }
 
