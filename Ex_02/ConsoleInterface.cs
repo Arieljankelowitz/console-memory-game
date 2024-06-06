@@ -222,18 +222,20 @@ namespace Ex_02
             Console.WriteLine("{0}'s turn: Score {1}", i_Player.Name, i_Player.Score);
             Console.WriteLine("Choose a card: (ex: 'A2')");
             string chosenCard = Console.ReadLine();
+            string errorMessage = "";
 
-            if (!InputValidation.ValidCard(chosenCard, i_Board))
+            if (!SyntaxValidation.ValidCard(chosenCard, i_Board))
             {
-                chosenCard = GuessAgain(i_Player, i_Board);
+                errorMessage = "Invalid Syntax";
+                chosenCard = GuessAgain(i_Player, i_Board,errorMessage );
             }
 
             return chosenCard;
         }
 
-        internal static string GuessAgain(Player i_Player, Board i_Board)
+        internal static string GuessAgain(Player i_Player, Board i_Board, string i_ErrorMessage)
         {
-            Console.WriteLine("Invalid input. Please try again");
+            Console.WriteLine("{0}. Please try again", i_ErrorMessage);
             Console.WriteLine("Choose a card: (ex: 'A2')");
             string chosenCard = Console.ReadLine();
 
