@@ -21,7 +21,7 @@ namespace Ex_02
             return playerName;
         }
 
-        internal static bool ChoosePlayer2() 
+        internal static bool BinarySelection(String i_FirstOption, String i_SecondOption) 
         {
             
             int startX = 15;
@@ -29,7 +29,7 @@ namespace Ex_02
             int optionsPerLine = 2;
             int spacingPerLine = 14;
 
-            string[] player2Options = new string[2] { "computer", "player 2" };
+            string[] player2Options = new string[2] { i_FirstOption, i_SecondOption };
 
             int currentSelection = 0;
 
@@ -78,9 +78,9 @@ namespace Ex_02
 
             Console.CursorVisible = true;
 
-            bool choosePlayerTwo = currentSelection == 0 ? false : true;
+            bool isSecondOption = currentSelection == 0 ? false : true;
 
-            return choosePlayerTwo;
+            return isSecondOption;
 
         }
 
@@ -209,11 +209,14 @@ namespace Ex_02
             if (i_GameWinner != null)
             {
                 Console.WriteLine("{0} Won with {1} matches", i_GameWinner.Name, i_GameWinner.Score);
+
                 
             } else
             {
                 Console.WriteLine("TIE GAME!");
             }
+
+            Console.WriteLine();
         }
 
         internal static string NewGuess(Player i_Player, Board i_Board)
