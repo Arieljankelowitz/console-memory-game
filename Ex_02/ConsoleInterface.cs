@@ -6,6 +6,7 @@ namespace Ex_02
 {
     internal class ConsoleInterface
     {
+        const int k_PrintMuliplier = 5;
         internal static string GetPlayerName()
         {
             Console.WriteLine("Please enter your name: ");
@@ -218,7 +219,7 @@ namespace Ex_02
         internal static string NewGuess(Player i_Player, Board i_Board)
         {
             Ex02.ConsoleUtils.Screen.Clear();
-            i_Board.PrintBoard();
+            PrintBoard(i_Board);
             Console.WriteLine("{0}'s turn: Score {1}", i_Player.Name, i_Player.Score);
             Console.WriteLine("Choose a card: (ex: 'A2')");
             string chosenCard = Console.ReadLine();
@@ -250,7 +251,44 @@ namespace Ex_02
         internal static void ShowBoard(Board i_board)
         {
             Ex02.ConsoleUtils.Screen.Clear();
-            i_board.PrintBoard();
+            PrintBoard(i_board);
+        }
+
+        public static void PrintBoard(Board i_board)
+        {
+            Console.Write(' ');
+            Console.Write(' ');
+            for (int j = 0; j <  i_board.NumOfCols; j++)
+            {
+                Console.Write($"  {(char)('A' + j)}  ");
+            }
+
+            Console.WriteLine();
+
+
+            for (int i = 0; i < i_board.NumOfRows; i++)
+            {
+                Console.Write("  ");
+                Console.WriteLine(new string('=', k_PrintMuliplier * i_board.NumOfCols));
+                Console.Write($"{i + 1} ");
+                Console.Write("|");
+                for (int j = 0; j < i_board.NumOfCols; j++)
+                {
+                    if (i_board.Cells[i, j].m_IsVisible)
+                    {
+                        Console.Write($" {i_board.Cells[i, j].Letter} | ");
+                    }
+
+                    else
+                    {
+                        Console.Write(new string(' ', 3) + "| ");
+                    }
+
+                }
+                Console.WriteLine();
+            }
+            Console.Write("  ");
+            Console.WriteLine(new string('=', k_PrintMuliplier * i_board.NumOfCols));
         }
     }
 

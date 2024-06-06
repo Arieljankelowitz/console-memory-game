@@ -8,7 +8,6 @@ namespace Ex_02
         private Cell[,] m_Cells;
         private int m_Column;
         private int m_Row;
-        const int k_PrintMuliplier = 5;
         private bool[,] m_CellsMatched;
         public int NumOfCols 
         {
@@ -60,42 +59,7 @@ namespace Ex_02
             return cellLetterValue;
         }
 
-        public void PrintBoard()
-        {
-            Console.Write(' ');
-            Console.Write(' ');
-            for (int j = 0; j < m_Column; j++)
-            {
-                Console.Write($"  {(char)('A' + j)}  ");
-            }
 
-            Console.WriteLine();
-
-
-            for (int i = 0; i < m_Row; i++)
-            {
-                Console.Write("  ");
-                Console.WriteLine(new string('=', k_PrintMuliplier * m_Column));
-                Console.Write($"{i + 1} ");
-                Console.Write("|");
-                for (int j = 0; j < m_Column; j++)
-                {
-                    if (m_Cells[i, j].m_IsVisible)
-                    {
-                        Console.Write($" {m_Cells[i, j].Letter} | ");
-                    }
-                    
-                    else
-                    {
-                        Console.Write(new string(' ', 3 ) + "| ");
-                    }
-                    
-                }
-                Console.WriteLine();
-            }
-            Console.Write("  ");
-            Console.WriteLine(new string('=', k_PrintMuliplier * m_Column));
-        }
 
         internal void GotAMatch((int Row, int Col) i_FirstCell, (int Row, int Col) i_SecondCell)
         {

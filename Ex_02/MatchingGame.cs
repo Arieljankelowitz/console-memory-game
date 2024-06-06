@@ -24,7 +24,7 @@ namespace Ex_02
 
             m_Board = new Board(board.Rows, board.Cols);
 
-            m_Board.PrintBoard();
+           ConsoleInterface.PrintBoard(m_Board);
         }
 
         public void Play()
