@@ -17,6 +17,10 @@ namespace Ex_02
         public Player(string i_Name)
         {
             Name = i_Name;
+            if (Name == "Computer")
+            {
+                m_IsComputer = true;
+            }
         }
 
 
@@ -25,7 +29,7 @@ namespace Ex_02
             (int Row, int Col) cellCoord;
             if (m_IsComputer)
             {
-                
+
                 cellCoord = m_Computer.computerGuess(i_board);
             }
             else
@@ -59,29 +63,30 @@ namespace Ex_02
             return cellCoord;
         }
         internal class Computer {
-          
+
             internal (int, int) computerGuess(Board i_board)
             {
                 Random random = new Random();
-                int rowGuess = random.Next(0, i_board.NumOfRows);
-                int coloumGuss = random.Next(0, i_board.NumOfCols);
-                (int, int) cellCoord = (rowGuess, coloumGuss);
+                (int, int) cellCoord;
+                int rowGuess, coloumGuss;
+                bool alreadyMatched;
 
-                System.Console.WriteLine("comuter gessing" + cellCoord);
-                System.Threading.Thread.Sleep(3000);
-
-                bool alreadyMatched = i_board.alreadyMatched(rowGuess, coloumGuss);
-
-                if (alreadyMatched)
+                do
                 {
-                    cellCoord = computerGuess(i_board);
+                    rowGuess = random.Next(0, i_board.NumOfRows);
+                    coloumGuss = random.Next(0, i_board.NumOfCols);
+                    cellCoord = (rowGuess, coloumGuss);
+                    alreadyMatched = i_board.alreadyMatched(rowGuess, coloumGuss);
                 }
+                while (alreadyMatched);
 
                 return cellCoord;
             }
         }
-
-
-
     }
 }
+
+
+
+    
+

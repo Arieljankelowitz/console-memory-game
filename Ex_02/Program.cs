@@ -10,7 +10,7 @@ namespace Ex_02
             
         }
 
-        internal static void playGame()
+        public static void playGame()
         {
             MatchingGame matchingGame = new MatchingGame();
 

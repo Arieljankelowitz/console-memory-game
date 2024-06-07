@@ -11,6 +11,7 @@ namespace Ex_02
         private bool m_GameOver;
       public MatchingGame()
         {
+            
             string player1Name = ConsoleInterface.GetPlayerName();
             string player2Name = ConsoleInterface.BinarySelection("Computer", "PlayerTwo") ? ConsoleInterface.GetPlayerName() : "Computer";
             (int Rows, int Cols) board = ConsoleInterface.ChooseBoard();
@@ -72,7 +73,7 @@ namespace Ex_02
 
         private void playerTurn(Player i_Player)
         {
-            i_Player.IsPlaying = true;
+            
 
             (int Row, int Col) firstGuessCoord = i_Player.Guess(m_Board);
 
