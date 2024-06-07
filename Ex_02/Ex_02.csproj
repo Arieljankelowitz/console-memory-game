@@ -44,10 +44,12 @@
     <Compile Include="Board.cs" />
     <Compile Include="ConsoleInterface.cs" />
     <Compile Include="InputValidation.cs" />
+    <Compile Include="LogicValidation.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="MatchingGame.cs" />
     <Compile Include="Cell.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="SyntaxValidation.cs" />
     <Compile Include="Utils.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
