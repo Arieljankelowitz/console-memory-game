@@ -21,7 +21,7 @@ namespace Ex_02
             return playerName;
         }
 
-        internal static bool BinarySelection(String i_FirstOption, String i_SecondOption) 
+        internal static bool BinarySelection(string i_FirstOption, string i_SecondOption, string i_message) 
         {
             
             int startX = 15;
@@ -37,7 +37,7 @@ namespace Ex_02
 
             Console.CursorVisible = false;
 
-            Console.WriteLine("Choose your opponent: (Use arrow keys to move, press 'Enter' to select)");
+            Console.WriteLine(i_message);
 
             do
             {
@@ -218,7 +218,7 @@ namespace Ex_02
 
             Console.WriteLine();
             
-            if (BinarySelection("Restart", "Quit"))
+            if (BinarySelection("Restart", "Quit", "Game is Over:"))
             {
 
                 Console.WriteLine("game over");
@@ -236,7 +236,7 @@ namespace Ex_02
             Ex02.ConsoleUtils.Screen.Clear();
             PrintBoard(i_Board);
             Console.WriteLine("{0}'s turn: Score {1}", i_Player.Name, i_Player.Score);
-            Console.WriteLine("Choose a card: (ex: 'A2') or Prees Q to exit");
+            Console.WriteLine("Choose a card: (ex: 'A2') or Press Q to exit");
             string chosenCard = Console.ReadLine();
             string errorMessage = "";
             if(chosenCard.ToUpper() == "Q")

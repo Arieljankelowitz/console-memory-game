@@ -13,7 +13,7 @@ namespace Ex_02
         {
             
             string player1Name = ConsoleInterface.GetPlayerName();
-            string player2Name = ConsoleInterface.BinarySelection("Computer", "PlayerTwo") ? ConsoleInterface.GetPlayerName() : "Computer";
+            string player2Name = ConsoleInterface.BinarySelection("Computer", "Player 2", ) ? ConsoleInterface.GetPlayerName() : "Computer";
             (int Rows, int Cols) board = ConsoleInterface.ChooseBoard();
 
             m_Player1 = new Player(player1Name);
@@ -96,9 +96,11 @@ namespace Ex_02
             ConsoleInterface.ShowBoard(m_Board);
 
             bool matched = i_Player.IsMatch(firstGuess, secondGuess);
+
             if (matched)
             {
                 m_Board.GotAMatch(firstGuessCoord, secondGuessCoord);
+                i_Player.IsPlaying = true;
 
             }
             else
