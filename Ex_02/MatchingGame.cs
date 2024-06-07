@@ -13,7 +13,7 @@ namespace Ex_02
         {
             
             string player1Name = ConsoleInterface.GetPlayerName();
-            string player2Name = ConsoleInterface.BinarySelection("Computer", "Player 2", ) ? ConsoleInterface.GetPlayerName() : "Computer";
+            string player2Name = ConsoleInterface.BinarySelection("Computer", "Player 2", "Choose your opponent:") ? ConsoleInterface.GetPlayerName() : "Computer";
             (int Rows, int Cols) board = ConsoleInterface.ChooseBoard();
 
             m_Player1 = new Player(player1Name);
@@ -73,22 +73,68 @@ namespace Ex_02
 
         private void playerTurn(Player i_Player)
         {
-            
-
-            (int Row, int Col) firstGuessCoord = i_Player.Guess(m_Board);
-
-            while(LogicValidation.IsAlreadyMatched(firstGuessCoord, m_Board))
+            string playerFirstGuess;
+            (int Row, int Col) firstGuessCoord;
+            if (i_Player.Name == "Computer" )
             {
-                firstGuessCoord = i_Player.Guess(m_Board);
+               firstGuessCoord = i_Player.Guess(m_Board);
             }
+            else
+            {
+                playerFirstGuess = ConsoleInterface.NewGuess(i_Player, m_Board);
+                firstGuessCoord = Utils.getGuessCoord(playerFirstGuess);
 
+                while (LogicValidation.IsAlreadyMatched(firstGuessCoord, m_Board))
+                {
+                    string errMsg = "Card is already Matched";
+                    playerFirstGuess = ConsoleInterface.GuessAgain(i_Player, m_Board, errMsg);
+                    firstGuessCoord = Utils.getGuessCoord(playerFirstGuess);
+                }
+            }
+            
             char firstGuess = m_Board.FlipCell(firstGuessCoord.Row, firstGuessCoord.Col);
 
-            (int Row, int Col) secondGuessCoord = i_Player.Guess(m_Board);
 
-            while (!LogicValidation.ValidSecondCard(firstGuessCoord, secondGuessCoord) || LogicValidation.IsAlreadyMatched(secondGuessCoord, m_Board))
+            string playerSecondGuess;
+            (int Row, int Col) secondGuessCoord;
+            if (i_Player.Name == "Computer")
             {
                 secondGuessCoord = i_Player.Guess(m_Board);
+            }
+            else
+            {
+                playerSecondGuess = ConsoleInterface.NewGuess(i_Player, m_Board);
+                secondGuessCoord = Utils.getGuessCoord(playerSecondGuess);
+
+                while (LogicValidation.IsAlreadyMatched(secondGuessCoord, m_Board))
+                {
+                    string errMsg = "Card is already Matched";
+                    playerSecondGuess = ConsoleInterface.GuessAgain(i_Player, m_Board, errMsg);
+                    secondGuessCoord = Utils.getGuessCoord(playerSecondGuess);
+                }
+            }
+
+
+            while (!LogicValidation.ValidSecondCard(firstGuessCoord, secondGuessCoord))
+            {
+                if (i_Player.Name == "Computer")
+                {
+                    secondGuessCoord = i_Player.Guess(m_Board);
+                }
+                else
+                {
+                    string errMsg = "Card already chosen";
+                    playerSecondGuess = ConsoleInterface.GuessAgain(i_Player, m_Board, errMsg);
+                    secondGuessCoord = Utils.getGuessCoord(playerSecondGuess);
+
+                    while (LogicValidation.IsAlreadyMatched(secondGuessCoord, m_Board))
+                    {
+                        string matcherrMsg = "Card is already Matched";
+                        playerSecondGuess = ConsoleInterface.GuessAgain(i_Player, m_Board, matcherrMsg);
+                        secondGuessCoord = Utils.getGuessCoord(playerSecondGuess);
+                    }
+                }
+                
             }
 
             char secondGuess = m_Board.FlipCell(secondGuessCoord.Row, secondGuessCoord.Col);

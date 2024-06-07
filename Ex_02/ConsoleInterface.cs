@@ -255,7 +255,7 @@ namespace Ex_02
         internal static string GuessAgain(Player i_Player, Board i_Board, string i_ErrorMessage)
         {
             Console.WriteLine("{0}. Please try again", i_ErrorMessage);
-            Console.WriteLine("Choose a card: (ex: 'A2') or Prees Q to exit");
+            Console.WriteLine("Choose a card: (ex: 'A2') or Press Q to exit");
             string chosenCard = Console.ReadLine();
 
             if (chosenCard.ToUpper() == "Q")
@@ -263,10 +263,10 @@ namespace Ex_02
                 Environment.Exit(0);
             }
 
-            if (!InputValidation.ValidCard(chosenCard, i_Board))
+            if (!SyntaxValidation.ValidCard(chosenCard, i_Board))
             {
-
-                chosenCard = GuessAgain(i_Player, i_Board, i_ErrorMessage);
+                string errorMessage = "Invalid Syntax";
+                chosenCard = GuessAgain(i_Player, i_Board, errorMessage);
             }
 
             return chosenCard;

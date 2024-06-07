@@ -7,6 +7,7 @@ namespace Ex_02
     internal class Player
     {
         private bool m_IsComputer;
+        private (int Row, int Col) m_FirstGuess;
 
         private static readonly Computer m_Computer = new Computer();
         public string Name { get; }
