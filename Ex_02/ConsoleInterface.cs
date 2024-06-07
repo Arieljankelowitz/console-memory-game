@@ -217,6 +217,18 @@ namespace Ex_02
             }
 
             Console.WriteLine();
+            
+            if (BinarySelection("Restart", "Quit"))
+            {
+
+                Console.WriteLine("game over");
+
+            }
+            else
+            {
+                Ex02.ConsoleUtils.Screen.Clear();
+                Program.playGame();
+            }
         }
 
         internal static string NewGuess(Player i_Player, Board i_Board)
