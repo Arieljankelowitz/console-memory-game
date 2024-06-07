@@ -7,12 +7,10 @@ namespace Ex_02
         static void Main()
         {
             playGame();
-
-            System.Console.Read();
             
         }
 
-        private static void playGame()
+        internal static void playGame()
         {
             MatchingGame matchingGame = new MatchingGame();
 

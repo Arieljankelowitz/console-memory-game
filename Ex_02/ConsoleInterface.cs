@@ -245,8 +245,7 @@ namespace Ex_02
 
             if (!InputValidation.ValidCard(chosenCard, i_Board))
             {
-
-                chosenCard = GuessAgain(i_Player, i_Board);
+                chosenCard = GuessAgain(i_Player, i_Board, i_ErrorMessage);
             }
 
             return chosenCard;

@@ -12,19 +12,16 @@ namespace Ex_02
       public MatchingGame()
         {
             string player1Name = ConsoleInterface.GetPlayerName();
-
             string player2Name = ConsoleInterface.BinarySelection("Computer", "PlayerTwo") ? ConsoleInterface.GetPlayerName() : "Computer";
-
             (int Rows, int Cols) board = ConsoleInterface.ChooseBoard();
 
             m_Player1 = new Player(player1Name);
             m_Player2 = new Player(player2Name);
+            m_Board = new Board(board.Rows, board.Cols);
 
             Ex02.ConsoleUtils.Screen.Clear();
 
-            m_Board = new Board(board.Rows, board.Cols);
-
-           ConsoleInterface.PrintBoard(m_Board);
+            ConsoleInterface.PrintBoard(m_Board);
         }
 
         public void Play()
@@ -65,26 +62,34 @@ namespace Ex_02
                     break;
                 }
             }
-
         }
+
         public void End()
         {
             Player gameWinner = getGameWinner();
             ConsoleInterface.GameOver(gameWinner);
         }
+
         private void playerTurn(Player i_Player)
         {
             i_Player.IsPlaying = true;
 
             (int Row, int Col) firstGuessCoord = i_Player.Guess(m_Board);
+
+            while(LogicValidation.IsAlreadyMatched(firstGuessCoord, m_Board))
+            {
+                firstGuessCoord = i_Player.Guess(m_Board);
+            }
+
             char firstGuess = m_Board.FlipCell(firstGuessCoord.Row, firstGuessCoord.Col);
 
             (int Row, int Col) secondGuessCoord = i_Player.Guess(m_Board);
 
-            while (firstGuessCoord == secondGuessCoord)
+            while (!LogicValidation.ValidSecondCard(firstGuessCoord, secondGuessCoord) || LogicValidation.IsAlreadyMatched(secondGuessCoord, m_Board))
             {
                 secondGuessCoord = i_Player.Guess(m_Board);
             }
+
             char secondGuess = m_Board.FlipCell(secondGuessCoord.Row, secondGuessCoord.Col);
 
             ConsoleInterface.ShowBoard(m_Board);
