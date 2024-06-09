@@ -8,9 +8,9 @@ namespace Ex_02
 {
     internal class Utils
     {
-        public static (int, int) getGuessCoord(string i_guess)
+        public static (int, int) GetGuessCoord(string i_guess)
         {
-            char[] guessArray = i_guess.ToUpper().ToArray();
+            char[] guessArray = i_guess.ToArray();
 
             int row = int.Parse(guessArray[1].ToString()) - 1;
             int col = guessArray[0] - 'A';

@@ -1,16 +1,15 @@
-﻿using System.Linq.Expressions;
-
-namespace Ex_02
+﻿namespace Ex_02
 {
     public class Program
     {
         static void Main()
         {
-            playGame();
+            PlayGame();
             
         }
 
-        public static void playGame()
+        //move this function to a new class
+        public static void PlayGame()
         {
             MatchingGame matchingGame = new MatchingGame();
 

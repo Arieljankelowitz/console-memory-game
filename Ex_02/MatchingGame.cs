@@ -1,28 +1,26 @@
-﻿using System;
-using System.Linq;
-
-namespace Ex_02
+﻿namespace Ex_02
 {
     internal class MatchingGame
     {
-        private Player m_Player1;
-        private Player m_Player2;
-        private Board m_Board;
+
+        private readonly Player r_Player1;
+        private readonly Player r_Player2;
+        private readonly Board r_Board;
         private bool m_GameOver;
+
       public MatchingGame()
         {
-            
             string player1Name = ConsoleInterface.GetPlayerName();
             string player2Name = ConsoleInterface.BinarySelection("Computer", "Player 2", "Choose your opponent:") ? ConsoleInterface.GetPlayerName() : "Computer";
-            (int Rows, int Cols) board = ConsoleInterface.ChooseBoard();
+            (int rows, int cols) = ConsoleInterface.ChooseBoard();
 
-            m_Player1 = new Player(player1Name);
-            m_Player2 = new Player(player2Name);
-            m_Board = new Board(board.Rows, board.Cols);
+            r_Player1 = new Player(player1Name);
+            r_Player2 = new Player(player2Name);
+            r_Board = new Board(rows, cols);
 
             Ex02.ConsoleUtils.Screen.Clear();
 
-            ConsoleInterface.PrintBoard(m_Board);
+            ConsoleInterface.PrintBoard(r_Board);
         }
 
         public void Play()
@@ -31,7 +29,7 @@ namespace Ex_02
             {
                 do
                 {
-                    playerTurn(m_Player1);
+                    playerTurn(r_Player1);
                     isGameOver();
 
                     if (m_GameOver)
@@ -39,7 +37,7 @@ namespace Ex_02
                         break;
                     }
                 }
-                while (m_Player1.IsPlaying);
+                while (r_Player1.IsPlaying);
 
                 if (m_GameOver)
                 {
@@ -48,7 +46,7 @@ namespace Ex_02
 
                 do
                 {
-                    playerTurn(m_Player2);
+                    playerTurn(r_Player2);
                     isGameOver();
 
                     if (m_GameOver)
@@ -56,7 +54,7 @@ namespace Ex_02
                         break;
                     }
                 }
-                while (m_Player2.IsPlaying);
+                while (r_Player2.IsPlaying);
 
                 if (m_GameOver)
                 {
@@ -73,104 +71,71 @@ namespace Ex_02
 
         private void playerTurn(Player i_Player)
         {
-            string playerFirstGuess;
-            (int Row, int Col) firstGuessCoord;
-            if (i_Player.Name == "Computer" )
-            {
-               firstGuessCoord = i_Player.Guess(m_Board);
-            }
-            else
-            {
-                playerFirstGuess = ConsoleInterface.NewGuess(i_Player, m_Board);
-                firstGuessCoord = Utils.getGuessCoord(playerFirstGuess);
-
-                while (LogicValidation.IsAlreadyMatched(firstGuessCoord, m_Board))
-                {
-                    string errMsg = "Card is already Matched";
-                    playerFirstGuess = ConsoleInterface.GuessAgain(i_Player, m_Board, errMsg);
-                    firstGuessCoord = Utils.getGuessCoord(playerFirstGuess);
-                }
-            }
-            
-            char firstGuess = m_Board.FlipCell(firstGuessCoord.Row, firstGuessCoord.Col);
-
-
             string playerSecondGuess;
-            (int Row, int Col) secondGuessCoord;
-            if (i_Player.Name == "Computer")
-            {
-                secondGuessCoord = i_Player.Guess(m_Board);
-            }
-            else
-            {
-                playerSecondGuess = ConsoleInterface.NewGuess(i_Player, m_Board);
-                secondGuessCoord = Utils.getGuessCoord(playerSecondGuess);
 
-                while (LogicValidation.IsAlreadyMatched(secondGuessCoord, m_Board))
-                {
-                    string errMsg = "Card is already Matched";
-                    playerSecondGuess = ConsoleInterface.GuessAgain(i_Player, m_Board, errMsg);
-                    secondGuessCoord = Utils.getGuessCoord(playerSecondGuess);
-                }
-            }
+            (int Row, int Col) firstGuessCoord = getPlayerGuess(i_Player);
+            char firstGuess = r_Board.FlipCell(firstGuessCoord.Row, firstGuessCoord.Col);
 
+            (int Row, int Col) secondGuessCoord = getPlayerGuess(i_Player);
 
             while (!LogicValidation.ValidSecondCard(firstGuessCoord, secondGuessCoord))
             {
-                if (i_Player.Name == "Computer")
+                if (i_Player.IsComputer)
                 {
-                    secondGuessCoord = i_Player.Guess(m_Board);
+                    secondGuessCoord = i_Player.Guess(r_Board);
                 }
                 else
                 {
                     string errMsg = "Card already chosen";
-                    playerSecondGuess = ConsoleInterface.GuessAgain(i_Player, m_Board, errMsg);
-                    secondGuessCoord = Utils.getGuessCoord(playerSecondGuess);
+                    playerSecondGuess = ConsoleInterface.GuessAgain(i_Player, r_Board, errMsg);
+                    secondGuessCoord = Utils.GetGuessCoord(playerSecondGuess);
 
-                    while (LogicValidation.IsAlreadyMatched(secondGuessCoord, m_Board))
+                    while (!LogicValidation.IsValidCard(secondGuessCoord, r_Board))
                     {
-                        string matcherrMsg = "Card is already Matched";
-                        playerSecondGuess = ConsoleInterface.GuessAgain(i_Player, m_Board, matcherrMsg);
-                        secondGuessCoord = Utils.getGuessCoord(playerSecondGuess);
+                        string matcherrMsg = "Invlaid card (Logical error)";
+                        playerSecondGuess = ConsoleInterface.GuessAgain(i_Player, r_Board, matcherrMsg);
+                        secondGuessCoord = Utils.GetGuessCoord(playerSecondGuess);
                     }
                 }
+
                 
             }
 
-            char secondGuess = m_Board.FlipCell(secondGuessCoord.Row, secondGuessCoord.Col);
+            char secondGuess = r_Board.FlipCell(secondGuessCoord.Row, secondGuessCoord.Col);
 
-            ConsoleInterface.ShowBoard(m_Board);
+            ConsoleInterface.ShowBoard(r_Board);
 
             bool matched = i_Player.IsMatch(firstGuess, secondGuess);
 
             if (matched)
             {
-                m_Board.GotAMatch(firstGuessCoord, secondGuessCoord);
+                r_Board.GotAMatch(firstGuessCoord, secondGuessCoord);
                 i_Player.IsPlaying = true;
 
             }
             else
             {
-                m_Board.FlipCell(firstGuessCoord.Row, firstGuessCoord.Col);
-                m_Board.FlipCell(secondGuessCoord.Row, secondGuessCoord.Col);
-                System.Threading.Thread.Sleep(2000);
+                r_Board.FlipCell(firstGuessCoord.Row, firstGuessCoord.Col);
+                r_Board.FlipCell(secondGuessCoord.Row, secondGuessCoord.Col);
+           
                 i_Player.IsPlaying = false;
             }
 
+            System.Threading.Thread.Sleep(2000);
         }
 
         private Player getGameWinner()
         {
             Player gameWinnner = null;
 
-            if (m_Player1.Score > m_Player2.Score)
+            if (r_Player1.Score > r_Player2.Score)
             {
-                gameWinnner = m_Player1;
+                gameWinnner = r_Player1;
 
-            } else if (m_Player1.Score < m_Player2.Score)
+            } else if (r_Player1.Score < r_Player2.Score)
             {
 
-                gameWinnner= m_Player2;
+                gameWinnner= r_Player2;
 
             }
 
@@ -179,7 +144,31 @@ namespace Ex_02
 
         private void isGameOver()
         {
-            m_GameOver = m_Board.IsBoardMatched();
+            m_GameOver = r_Board.IsBoardMatched();
+        }
+
+        private (int Row, int Col) getPlayerGuess(Player i_Player)
+        {
+            string playerGuess;
+            (int Row, int Col) guessCoord;
+            if (i_Player.IsComputer)
+            {
+                guessCoord = i_Player.Guess(r_Board);
+            }
+            else
+            {
+                playerGuess = ConsoleInterface.NewGuess(i_Player, r_Board);
+                guessCoord = Utils.GetGuessCoord(playerGuess);
+
+                while (!LogicValidation.IsValidCard(guessCoord, r_Board))
+                {
+                    string errMsg = "Invlaid card (Logical error)";
+                    playerGuess = ConsoleInterface.GuessAgain(i_Player, r_Board, errMsg);
+                    guessCoord = Utils.GetGuessCoord(playerGuess);
+                }
+            }
+
+            return guessCoord;
         }
     }
 

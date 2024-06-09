@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ex_02
 {
@@ -19,7 +16,7 @@ namespace Ex_02
             return validName;
         }
 
-        internal static bool ValidCard(string i_Card, Board i_Board)
+        internal static bool ValidCard(string i_Card)
         {
             bool validLetter = false;
             bool validNumber = false;
@@ -28,9 +25,8 @@ namespace Ex_02
 
             if (!isEmpty && isTwoChars)
             {
-                validLetter = i_Card[0] >= 'A' && i_Card[0] < 'A' + i_Board.NumOfCols;
-                validNumber = char.IsDigit(i_Card[1]) && int.Parse(i_Card[1].ToString()) >= 1 && int.Parse(i_Card[1].ToString()) <= i_Board.NumOfRows;
-
+                validLetter = char.IsUpper(i_Card[0]);
+                validNumber = char.IsDigit(i_Card[1]);
             }
 
             bool validCard = !isEmpty && isTwoChars && validLetter && validNumber;

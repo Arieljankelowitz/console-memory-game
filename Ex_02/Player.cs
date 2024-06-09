@@ -6,38 +6,26 @@ namespace Ex_02
 {
     internal class Player
     {
-        private bool m_IsComputer;
-        private (int Row, int Col) m_FirstGuess;
+        private readonly bool r_IsComputer;
+        private static readonly Computer sr_Computer = new Computer();
 
-        private static readonly Computer m_Computer = new Computer();
         public string Name { get; }
         public int Score { get; set; }
-
         public bool IsPlaying { get; set; }
+        public bool IsComputer {  get { return r_IsComputer; } }
 
         public Player(string i_Name)
         {
             Name = i_Name;
             if (Name == "Computer")
             {
-                m_IsComputer = true;
+                r_IsComputer = true;
             }
         }
 
-
         internal (int, int) Guess(Board i_board)
         {
-            (int Row, int Col) cellCoord;
-            if (m_IsComputer)
-            {
-
-                cellCoord = m_Computer.computerGuess(i_board);
-            }
-            else
-            {
-                cellCoord = humanGuess(i_board);
-            }
-
+            (int Row, int Col) cellCoord = sr_Computer.ComputerGuess(i_board);
 
             return cellCoord;
         }
@@ -55,17 +43,9 @@ namespace Ex_02
             return isMatch;
         }
 
-
-        private (int, int) humanGuess(Board i_board)
-        {
-            string guess = ConsoleInterface.NewGuess(this, i_board);
-            (int Row, int Col) cellCoord = Utils.getGuessCoord(guess);
-
-            return cellCoord;
-        }
         internal class Computer {
 
-            internal (int, int) computerGuess(Board i_board)
+            internal (int, int) ComputerGuess(Board i_board)
             {
                 Random random = new Random();
                 (int, int) cellCoord;
@@ -77,7 +57,7 @@ namespace Ex_02
                     rowGuess = random.Next(0, i_board.NumOfRows);
                     coloumGuss = random.Next(0, i_board.NumOfCols);
                     cellCoord = (rowGuess, coloumGuss);
-                    alreadyMatched = i_board.alreadyMatched(rowGuess, coloumGuss);
+                    alreadyMatched = i_board.AlreadyMatched(rowGuess, coloumGuss);
                 }
                 while (alreadyMatched);
 

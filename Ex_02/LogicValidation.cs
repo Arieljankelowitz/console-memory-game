@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Ex_02
+﻿namespace Ex_02
 {
     internal class LogicValidation
     {
@@ -15,11 +9,21 @@ namespace Ex_02
             return validGuess;
         }
 
-        internal static bool IsAlreadyMatched((int Row, int Col) firstGuess, Board i_board)
+        internal static bool IsValidCard((int Row, int Col) firstGuess, Board i_board)
         {
-            bool isAlreadyMatched = i_board.alreadyMatched(firstGuess.Row, firstGuess.Col);
+            bool isAlreadyMatched = true;
+            bool validRow = 0 <= firstGuess.Row  && firstGuess.Row < i_board.NumOfRows;
+            bool validCol = firstGuess.Col < i_board.NumOfCols;
+            bool validCoords = validRow && validCol;
 
-            return isAlreadyMatched;
+            if (validCoords)
+            {
+                isAlreadyMatched = i_board.AlreadyMatched(firstGuess.Row, firstGuess.Col);
+            }
+
+            bool validCard = validCoords && !isAlreadyMatched;
+
+            return validCard;
         }
     }
 }
